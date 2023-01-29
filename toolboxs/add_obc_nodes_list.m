@@ -82,8 +82,6 @@ if plotFig == 1
     hold on
     whos Nlist
     plot(x(Nodelist), y(Nodelist), 'ro');
-    hold on ;
-    plot(Mobj.lonc(99),Mobj.latc(99),'ro');
     axis('equal', 'tight')
     title('open boundary nodes');
 end
