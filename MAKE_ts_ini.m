@@ -1,6 +1,7 @@
-%  This  program is used to do HYCOM initial and obc. temperature and
-%  salinity.
-%  written by LinZhonghao 2022/04/25
+%  This  program is used to do HYCOM initial temperature and salinity.
+%  Zhonghao Lin , NUIST
+%  2022/04/25
+%  linzhonghao761@163.com
 %%
 clc;clear all;
 
@@ -49,7 +50,7 @@ t0 = hycom.temperature(:,:,:,str);t0 = t0(x1:x1+nx-1,y1:y1+ny-1,:);
 [yy0, xx0] = meshgrid(lat0, lon0);
 nz = length(depth0);
 
-time0 = datenum(year, month, day, hour, 0, 0)
+time0 = datenum(year, month, day, hour, 0, 0);
 %%
 % Interpolation
 [xxx0,yyy0,utmzone2,utmhemi2] = wgs2utm(xx0,yy0,50,'N');
