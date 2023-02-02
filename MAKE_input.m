@@ -7,6 +7,7 @@ clc;clear all;
 nobc =91;  % nobc = numbers of OBC. nodes
 cartesian = 0 ;  % Mobj.nativeCoords = ['spherical'] else ['cartesian'] =1
 Casename = 'Taihai';  % Your FVCOM case name
+two_dm = 'fin8'; % Your .2dm file name
 %%
 global ftbverbose
 ftbverbose = true;
@@ -19,7 +20,7 @@ else
     Coords = 'spherical';
 end
 
-Mobj = read_sms_mesh('2dm','.\input\fin8.2dm','coordinate' ,Coords);  % read 2dm file
+Mobj = read_sms_mesh('2dm',['.\input\',two_dm,'.2dm'],'coordinate' ,Coords);  % read 2dm file
 
 Mobj = add_obc_nodes_list(Mobj,[1:nobc],'OpenOcean',1,1);  %  figure
 
