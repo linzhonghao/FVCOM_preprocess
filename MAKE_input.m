@@ -8,6 +8,7 @@ nobc =91;  % nobc = numbers of OBC. nodes
 cartesian = 0 ;  % Mobj.nativeCoords = ['spherical'] else ['cartesian'] =1
 Casename = 'Taihai';  % Your FVCOM case name
 two_dm = 'fin8'; % Your .2dm file name
+utmZone = {'50 U'}; %Your UTM zone (only for cartesian)
 %%
 global ftbverbose
 ftbverbose = true;
@@ -38,7 +39,7 @@ write_FVCOM_obc(Mobj,['./output/',Casename,'_obc.dat']);
 %%
 
 if cartesian == 1
-utmZone = {'50 U'}; 
+
 utmZones = cellfun(@(x) repmat(x, length(Mobj.x), 1), utmZone, 'uni', false);
 [Mobj.lat, Mobj.lon] = utm2deg(Mobj.x, Mobj.y, utmZones{1});
 Mobj.have_lonlat = 1;
