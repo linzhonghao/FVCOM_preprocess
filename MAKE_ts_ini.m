@@ -8,18 +8,18 @@ clc;clear all;
 addpath './toolboxs';
 % Read FVCOM grid and sigma
 
-Mobj = read_sms_mesh('2dm','.2dm','coordinate' ,'spherical');
+Mobj = read_sms_mesh('2dm','./input/fin8.2dm','coordinate' ,'spherical');
 
-load '50522-50902.mat';
+load '50101-50401.mat';
 
 %Model Start time
 year = 2021;
 month = 5;
-day = 6;
-hour = 0;
+day = 1;
+hour = 6;
 
-hycom_datastrtime = 522;
-model_strtime = 524;
+hycom_datastrtime = 501;
+model_strtime = 506;
 str = model_strtime - hycom_datastrtime+1;
 %%
 
@@ -60,11 +60,13 @@ for iz = 1 : nz
     disp(['Interpolating the ' num2str(iz) 'th layer of ' num2str(nz) ' layers.'])
     % t
     kt = ~isnan(t0(:,:,iz));
-    Ft = scatteredInterpolant(xx0(kt), yy0(kt), t0(kt), 'linear', 'nearest');
+    tz = t0(:,:,iz);
+    sz = s0(:,:,iz);
+    Ft = scatteredInterpolant(xx0(kt), yy0(kt), tz(kt), 'linear', 'nearest');
     t(:,iz) = Ft(f.x, f.y);
     % s
     ks = ~isnan(s0(:,:,iz));
-    Fs = scatteredInterpolant(xx0(kt), yy0(kt), s0(kt), 'linear', 'nearest');
+    Fs = scatteredInterpolant(xx0(kt), yy0(kt), sz(kt), 'linear', 'nearest');
     s(:,iz) = Fs(f.x, f.y);
 end
 
