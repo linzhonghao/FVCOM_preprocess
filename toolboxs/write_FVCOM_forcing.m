@@ -182,12 +182,16 @@ yc = nodes2elems(y, Mobj);
 % Create the netCDF header for the FVCOM forcing file
 %--------------------------------------------------------------------------
 
+
 if multi_out
     suffixes = {'_wnd', '_hfx', '_evap', '_air_press'};
 else
     suffixes = {'_wnd'};
 end
 
+if strcmpi(infos,'hfx')
+    suffixes = {'_hfx'};
+end
 % We use this variable to indicate whether we were given precalculated net
 % surface heat flux.
 nshf = 0;
