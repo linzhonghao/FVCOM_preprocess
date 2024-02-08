@@ -1,6 +1,19 @@
 function time = changetime(Year,month,day,hour,timestep,tt)
 
 for ss = 1:tt
+    if Year ==2021 && month ==7 &&day==1&&hour==1
+         fprintf(['20210701:',num2str(ss),'s\n']);
+    end
+    if Year ==2021 && month ==10 &&day==1&&hour==1
+         fprintf(['20211001:',num2str(ss),'s\n']);
+    end
+    if Year ==2022 && month ==1 &&day==1&&hour==1
+         fprintf(['20220101:',num2str(ss),'s\n']);
+   end
+   if Year ==2022 && month ==4 &&day==1&&hour==1
+         fprintf(['20220401:',num2str(ss),'s\n']);
+   end
+    
     time(ss)=greg2mjulian(Year,month,day,hour, 00, 00);
     hour=hour+timestep;
     if hour>=24 

@@ -28,7 +28,11 @@ varargin = read_varargin(varargin, {'Time'}, {[]});
 varargin = read_varargin(varargin, {'Flux'}, {[]});
 varargin = read_varargin(varargin, {'Temperature'}, {[]});
 varargin = read_varargin(varargin, {'Salinity'}, {[]});
-
+%
+varargin = read_varargin(varargin, {'NH4'}, {[]});
+varargin = read_varargin(varargin, {'Nitrogen'}, {[]});
+varargin = read_varargin(varargin, {'Phytoplankton'}, {[]});
+varargin = read_varargin(varargin, {'Zooplankton'}, {[]});
 
 
 if isempty(Time)
@@ -101,7 +105,7 @@ netcdf.putAtt(ncid, Times_varid, 'time_zone', 'UTC');
 % river_names
 name_varid = netcdf.defVar(ncid, 'river_names', 'char', [namelen_dimid rivers_dimid]);
 netcdf.putAtt(ncid, name_varid, 'long_name', 'river names');
-% temperature
+% flux
 flux_varid = netcdf.defVar(ncid, 'river_flux', 'float', [rivers_dimid time_dimid]);
 netcdf.putAtt(ncid, flux_varid, 'long_name', 'river runoff volume flux');
 netcdf.putAtt(ncid, flux_varid, 'units', 'm^3s^-1');
@@ -113,6 +117,27 @@ netcdf.putAtt(ncid, temp_varid, 'units', 'Celsius');
 salinity_varid = netcdf.defVar(ncid, 'river_salt', 'float', [rivers_dimid time_dimid]);
 netcdf.putAtt(ncid, salinity_varid, 'long_name', 'river runoff salinity');
 netcdf.putAtt(ncid, salinity_varid, 'units', 'PSU');
+% NH4
+nh4_varid = netcdf.defVar(ncid, 'NH4', 'float', [rivers_dimid time_dimid]);
+netcdf.putAtt(ncid, nh4_varid, 'long_name', 'river runoff NH4');
+% netcdf.putAtt(ncid, nh4_varid, 'units', 'mmol N m-3');
+netcdf.putAtt(ncid, nh4_varid, 'units', '''mmol')
+% NO3
+Nitrogen_varid = netcdf.defVar(ncid, 'Nitrogen', 'float', [rivers_dimid time_dimid]);
+netcdf.putAtt(ncid, Nitrogen_varid, 'long_name', 'river runoff Nitrogen');
+% netcdf.putAtt(ncid, no3_varid, 'units', 'mmol N m-3');
+netcdf.putAtt(ncid, Nitrogen_varid, 'units', 'mmole N m-3');
+% Phytoplankton
+phytoplankton_varid = netcdf.defVar(ncid, 'Phytoplankton', 'float', [rivers_dimid time_dimid]);
+netcdf.putAtt(ncid, phytoplankton_varid, 'long_name', 'river runoff Phytoplankton');
+% netcdf.putAtt(ncid, phytoplankton_varid, 'units', 'mmol C m-3');
+netcdf.putAtt(ncid, phytoplankton_varid, 'units', 'mmole C m-3');
+% Zooplankton
+zooplankton_varid = netcdf.defVar(ncid, 'Zooplankton', 'float', [rivers_dimid time_dimid]);
+netcdf.putAtt(ncid, zooplankton_varid, 'long_name', 'river runoff Zooplankton');
+% netcdf.putAtt(ncid, zooplankton_varid, 'units', 'mmol C m-3');
+netcdf.putAtt(ncid, zooplankton_varid, 'units', 'mmole C m-3');
+
 
 
 % End define mode
@@ -133,6 +158,11 @@ for it = 1 : nt
     netcdf.putVar(ncid, flux_varid, [0 it-1], [n 1], Flux(:, it));
     netcdf.putVar(ncid, temp_varid, [0 it-1], [n 1], Temperature(:, it));
     netcdf.putVar(ncid, salinity_varid, [0 it-1], [n 1], Salinity(:, it));
+    %
+%     netcdf.putVar(ncid, nh4_varid, [0 it-1], [n 1], NH4(:, it)); 
+%     netcdf.putVar(ncid, Nitrogen_varid, [0 it-1], [n 1], Nitrogen(:, it));
+%     netcdf.putVar(ncid, phytoplankton_varid, [0 it-1], [n 1], Phytoplankton(:, it));
+%     netcdf.putVar(ncid, zooplankton_varid, [0 it-1], [n 1], Zooplankton(:, it));
 end
 
 % Close the nesting file

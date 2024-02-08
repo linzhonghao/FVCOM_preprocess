@@ -19,7 +19,7 @@
 % Updates:
 %
 %==========================================================================
-function write_initial_ts(fini, zsl, tsl, ssl, time0)
+function write_initial_ts(fini, zsl, tsl, ssl,Nitrogen,p,z,time0)
 
 ksl = length(zsl);
 
@@ -89,29 +89,33 @@ netcdf.putAtt(ncid,tsl_varid, 'long_name','Temperature');
 ssl_varid = netcdf.defVar(ncid, 'ssl','float',[node_dimid ksl_dimid time_dimid]);
 netcdf.putAtt(ncid,ssl_varid, 'long_name','Salinity');
 
-%write global attributes
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'title','scs forcing)');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'institution','school for Marine Science and Technology');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'source','FVCOM grid (unstructured) surface forcing');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'history','model started at 20/11/2016  15:10');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'referecnes','http://fvcom.smast.umassd.edu, http://codfish.smast.umassd.edu');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'Conventions','CF-1.0');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'CoordinateSystem','Cartesian');
-% netcdf.putAtt(ncid,netcdf.getConstant('GLOBAL'),'CoordinateProjection','none');
+nsl_varid = netcdf.defVar(ncid, 'Nitrogen','float',[node_dimid ksl_dimid time_dimid]);
+netcdf.putAtt(ncid,nsl_varid, 'long_name','Nitrogen');
+netcdf.putAtt(ncid, nsl_varid, 'units', 'mmole N m-3');
 
+psl_varid = netcdf.defVar(ncid, 'Phytoplankton','float',[node_dimid ksl_dimid time_dimid]);
+netcdf.putAtt(ncid,psl_varid, 'long_name','Phytoplankton');
+netcdf.putAtt(ncid, psl_varid, 'units', 'mmole C m-3');
+
+zzsl_varid = netcdf.defVar(ncid, 'Zooplankton','float',[node_dimid ksl_dimid time_dimid]);
+netcdf.putAtt(ncid,zzsl_varid, 'long_name','Zooplankton');
+netcdf.putAtt(ncid, zzsl_varid, 'units', 'mmole C m-3');
 %end define mode
 netcdf.endDef(ncid);
 
 %put data in the output file
 netcdf.putVar(ncid,zsl_varid, zsl);
 for i=1:1
+    
     netcdf.putVar(ncid, time_varid, i-1, 1, time(i));
     netcdf.putVar(ncid, Itime_varid, i-1, 1, Itime(i));
     netcdf.putVar(ncid, Itime2_varid, i-1, 1, Itime2(i));
     netcdf.putVar(ncid, Times_varid, [0 i-1], [26 1], Times(i,:));
-
     netcdf.putVar(ncid, tsl_varid, [0 0 i-1], [node ksl 1], tsl);
     netcdf.putVar(ncid, ssl_varid, [0 0 i-1], [node ksl 1], ssl);
+    netcdf.putVar(ncid, nsl_varid, [0 0 i-1], [node ksl 1], Nitrogen);
+    netcdf.putVar(ncid, psl_varid, [0 0 i-1], [node ksl 1], p);
+    netcdf.putVar(ncid, zzsl_varid, [0 0 i-1], [node ksl 1], z);
 end
 
 % close NC file

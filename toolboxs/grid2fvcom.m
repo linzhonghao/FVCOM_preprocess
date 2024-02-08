@@ -121,13 +121,13 @@ end
 
 % Run jobs on multiple workers if we have that functionality. Not sure if
 % it's necessary, but check we have the Parallel Toolbox first.
-if license('test', 'Distrib_Computing_Toolbox')
-    % We have the Parallel Computing Toolbox, so launch a bunch of workers.
-    if isempty(gcp('nocreate'))
-        % Force pool to be local in case we have remote pools available.
-        parpool('local');
-    end
-end
+% if license('test', 'Distrib_Computing_Toolbox')
+%     % We have the Parallel Computing Toolbox, so launch a bunch of workers.
+%     if isempty(gcp('nocreate'))
+%         % Force pool to be local in case we have remote pools available.
+%         parpool('local');
+%     end
+% end
 
 %--------------------------------------------------------------------------
 % Get the relevant bits from the FVCOM mesh object
@@ -218,7 +218,7 @@ for vv = 1:length(vars)
             % Use a parallel loop for the number of time steps we're
             % interpolating.
             varname = vars{vv};
-            parfor i = 1:ntimes
+            for i = 1:ntimes
                 if ftbverbose
                     fprintf('interpolating %s, frame %d of %d\n', varname, i, ntimes);
                 end
